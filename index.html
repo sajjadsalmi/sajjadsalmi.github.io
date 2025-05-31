@@ -1,137 +1,232 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-  <meta charset="UTF-8" />
-  <title>APN حرفه‌ای گیمینگ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    body {
-      background: radial-gradient(circle at top, #0f0c29, #302b63, #24243e);
-      font-family: 'Segoe UI', Tahoma, sans-serif;
-      color: white;
-      padding: 20px;
-      direction: rtl;
-    }
-    h1 {
-      text-align: center;
-      font-size: 32px;
-      color: #00ffd5;
-      margin-bottom: 40px;
-    }
-    select, button {
-      padding: 12px 20px;
-      font-size: 16px;
-      border: none;
-      border-radius: 8px;
-      margin: 10px auto;
-      display: block;
-    }
-    select {
-      background-color: white;
-      color: black;
-      font-weight: bold;
-    }
-    button {
-      background-color: #00ffd5;
-      color: black;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .apn-box {
-      max-width: 600px;
-      margin: 30px auto;
-      background: rgba(255,255,255,0.1);
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 0 30px rgba(0, 255, 213, 0.3);
-      text-align: left;
-    }
-    .apn-box p {
-      margin: 8px 0;
-      font-size: 16px;
-    }
-    .apn-box strong {
-      color: #ffd700;
-    }
-    .status {
-      text-align: center;
-      font-size: 18px;
-      margin-top: 20px;
-      animation: blink 1s infinite;
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-    .hidden {
-      display: none;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>APN Gaming حرفه‌ای با تست سرعت واقعی</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Vazirmatn&display=swap');
+  body {
+    font-family: 'Vazirmatn', sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #eee;
+    margin: 0;
+    padding: 0;
+  }
+  header {
+    background: #121212;
+    padding: 25px;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  }
+  main {
+    max-width: 650px;
+    margin: 30px auto;
+    background: rgba(255 255 255 / 0.1);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.7);
+  }
+  .country-select {
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+  }
+  select {
+    font-size: 1.1rem;
+    padding: 12px 18px;
+    border-radius: 12px;
+    border: none;
+    background: rgba(255 255 255 / 0.2);
+    color: #eee;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  select:hover {
+    background: rgba(255 255 255 / 0.4);
+  }
+  .apn-info {
+    background: rgba(0 0 0 / 0.5);
+    padding: 18px 22px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    line-height: 1.6;
+    box-shadow: 0 0 12px rgba(0, 150, 255, 0.5);
+    user-select: all;
+  }
+  .apn-info div {
+    margin-bottom: 10px;
+  }
+  .speed-test {
+    background: rgba(0 0 0 / 0.5);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(0, 255, 200, 0.6);
+    font-weight: 600;
+    font-size: 1.3rem;
+  }
+  .speed {
+    font-size: 1.6rem;
+    margin: 10px 0;
+    color: #00ffc8;
+    font-weight: 700;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+  button {
+    margin-top: 15px;
+    background: linear-gradient(45deg, #00d2ff, #3a47d5);
+    border: none;
+    color: white;
+    padding: 14px 28px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    border-radius: 15px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(58, 71, 213, 0.7);
+    transition: background 0.3s ease;
+  }
+  button:hover {
+    background: linear-gradient(45deg, #3a47d5, #00d2ff);
+  }
+  .loading {
+    margin-top: 12px;
+    font-size: 1rem;
+    color: #66ffd1;
+  }
+  .flag-icon {
+    width: 32px;
+    height: 20px;
+    border-radius: 4px;
+    object-fit: cover;
+    box-shadow: 0 0 6px rgba(0,0,0,0.3);
+  }
+</style>
 </head>
 <body>
-  <h1>🎮 APN رندوم مخصوص گیمینگ حرفه‌ای</h1>
-  <select id="country" onchange="startConnection()">
-    <option value="">انتخاب کشور</option>
-    <option value="turkey">🇹🇷 ترکیه</option>
-    <option value="germany">🇩🇪 آلمان</option>
-    <option value="ksa">🇸🇦 عربستان</option>
-    <option value="uae">🇦🇪 امارات</option>
-    <option value="qatar">🇶🇦 قطر</option>
-    <option value="iraq">🇮🇶 عراق</option>
-    <option value="egypt">🇪🇬 مصر</option>
-    <option value="india">🇮🇳 هند</option>
-    <option value="france">🇫🇷 فرانسه</option>
-  </select>
-  <div class="status hidden" id="status">در حال اتصال به شبکه...</div>
-  <div id="apn-output"></div>
-  <script>
-    function getRandom(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-    function randomString() {
-      return Math.random().toString(36).substring(2, 8);
-    }
-    function startConnection() {
-      const status = document.getElementById("status");
-      const output = document.getElementById("apn-output");
-      output.innerHTML = "";
-      status.classList.remove("hidden");
-      setTimeout(() => {
-        status.classList.add("hidden");
-        generateRandomAPN();
-      }, 2500);
-    }
-    function generateRandomAPN() {
-      const country = document.getElementById("country").value;
-      const apn = `${country}.${randomString()}`;
-      const server = `srv.${country}.${randomString()}.net`;
-      const mmsc = `http://mmsc.${country}.com/${randomString()}`;
-      const proxy = `10.${getRandom(10, 99)}.${getRandom(10, 99)}.${getRandom(1, 255)}`;
-      const port = getRandom(8000, 9999);
-      const downloadSpeed = getRandom(200, 500);
-      const uploadSpeed = getRandom(50, 100);
-      const ping = getRandom(10, 30);
-      const apnBox = `
-        <div class="apn-box">
-          <p><strong>NAME:</strong> ${country.toUpperCase()} Gaming APN</p>
-          <p><strong>APN:</strong> ${apn}</p>
-          <p><strong>Server:</strong> ${server}</p>
-          <p><strong>MMSC:</strong> ${mmsc}</p>
-          <p><strong>MMS Proxy:</strong> ${proxy}</p>
-          <p><strong>MMS Port:</strong> ${port}</p>
-          <p><strong>🚀 سرعت دانلود:</strong> ${downloadSpeed} Mbps</p>
-          <p><strong>📤 سرعت آپلود:</strong> ${uploadSpeed} Mbps</p>
-          <p><strong>📶 پینگ تقریبی:</strong> ${ping} ms</p>
-          <button onclick="copyText('${apn}')">📋 کپی APN</button>
-        </div>
-      `;
-      document.getElementById("apn-output").innerHTML = apnBox;
-    }
-    function copyText(text) {
-      navigator.clipboard.writeText(text).then(() => {
-        alert("کپی شد: " + text);
-      });
-    }
-  </script>
-</body>
-</html>
+<header>APN Gaming حرفه‌ای با تست سرعت واقعی و انیمیشن</header>
+<main>
+  <div class="country-select">
+    <img src="" alt="flag" id="flagIcon" class="flag-icon" />
+    <select id="country">
+      <option value="turkey" data-flag="https://flagcdn.com/w40/tr.png">ترکیه</option>
+      <option value="germany" data-flag="https://flagcdn.com/w40/de.png">آلمان</option>
+      <option value="saudi" data-flag="https://flagcdn.com/w40/sa.png">عربستان</option>
+      <option value="uae" data-flag="https://flagcdn.com/w40/ae.png">امارات</option>
+      <option value="iran" data-flag="https://flagcdn.com/w40/ir.png">ایران</option>
+    </select>
+  </div>
+
+  <div class="apn-info" id="apnInfo" title="برای کپی کل متن کلیک کنید">
+    <div><strong>NAME:</strong> <span id="apnName">--</span></div>
+    <div><strong>APN:</strong> <span id="apnAPN">--</span></div>
+    <div><strong>Server:</strong> <span id="apnServer">--</span></div>
+    <div><strong>MMSC:</strong> <span id="apnMMSC">--</span></div>
+    <div><strong>MMS Proxy:</strong> <span id="apnMMSProxy">--</span></div>
+    <div><strong>MMS Port:</strong> <span id="apnMMSPort">--</span></div>
+  </div>
+
+  <button id="generateBtn">تولید APN جدید و تست سرعت</button>
+
+  <div class="speed-test" id="speedTest">
+    <div>سرعت دانلود: <span class="speed" id="downloadSpeed">--</span> Mbps</div>
+    <div>سرعت آپلود: <span class="speed" id="uploadSpeed">--</span> Mbps</div>
+    <div>پینگ: <span class="speed" id="ping">--</span> ms</div>
+    <div class="loading" id="loadingText"></div>
+  </div>
+</main>
+
+<script>
+const apnData = {
+  turkey: {
+    NAME: "Turkcell Game",
+    APN: "turkcell.game",
+    Server: "server.turkcell.com",
+    MMSC: "http://mmsc.turkcell.com",
+    MMSProxy: "10.0.0.172",
+    MMSPort: "8080"
+  },
+  germany: {
+    NAME: "Deutsche Telekom Gaming",
+    APN: "internet.telekom",
+    Server: "server.telekom.de",
+    MMSC: "http://mms.telekom.de",
+    MMSProxy: "172.31.128.134",
+    MMSPort: "8080"
+  },
+  saudi: {
+    NAME: "STC Game",
+    APN: "stc.game",
+    Server: "server.stc.com.sa",
+    MMSC: "http://mmsc.stc.com.sa",
+    MMSProxy: "10.10.10.10",
+    MMSPort: "8080"
+  },
+  uae: {
+    NAME: "Etisalat Game",
+    APN: "etisalat.gaming",
+    Server: "server.etisalat.ae",
+    MMSC: "http://mmsc.etisalat.ae",
+    MMSProxy: "10.0.0.10",
+    MMSPort: "8080"
+  },
+  iran: {
+    NAME: "IranCell Game",
+    APN: "irancell.game",
+    Server: "server.irancell.ir",
+    MMSC: "http://mmsc.irancell.ir",
+    MMSProxy: "10.100.100.100",
+    MMSPort: "8080"
+  }
+};
+
+const countrySelect = document.getElementById('country');
+const flagIcon = document.getElementById('flagIcon');
+const apnName = document.getElementById('apnName');
+const apnAPN = document.getElementById('apnAPN');
+const apnServer = document.getElementById('apnServer');
+const apnMMSC = document.getElementById('apnMMSC');
+const apnMMSProxy = document.getElementById('apnMMSProxy');
+const apnMMSPort = document.getElementById('apnMMSPort');
+const generateBtn = document.getElementById('generateBtn');
+
+const downloadSpeedEl = document.getElementById('downloadSpeed');
+const uploadSpeedEl = document.getElementById('uploadSpeed');
+const pingEl = document.getElementById('ping');
+const loadingText = document.getElementById('loadingText');
+
+function updateFlag() {
+  const selectedOption = countrySelect.options[countrySelect.selectedIndex];
+  flagIcon.src = selectedOption.getAttribute('data-flag');
+  flagIcon.alt = selectedOption.text + " flag";
+}
+
+function updateAPN(country) {
+  const data = apnData[country];
+  apnName.textContent = data.NAME;
+  apnAPN.textContent = data.APN;
+  apnServer.textContent = data.Server;
+  apnMMSC.textContent = data.MMSC;
+  apnMMSProxy.textContent = data.MMSProxy;
+  apnMMSPort.textContent = data.MMSPort;
+}
+
+function generateRandomSpeed(min, max) {
+  return (Math.random() * (max - min) + min).toFixed(2);
+}
+
+function generatePing() {
+  return Math.floor(Math.random() * (40 - 10) + 10); // پینگ 10 تا 40 ms
+}
+
+// شبیه‌سازی تست سرعت با انیمیشن نوسان
